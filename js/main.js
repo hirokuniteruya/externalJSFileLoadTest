@@ -64,7 +64,7 @@ var Countdown = {
         this.countdown_interval = setInterval(function() {
          
         if(that.total_seconds > 0) {
-            --that.values.seconds;              
+            --that.values.seconds;
 
             if(that.values.minutes >= 0 && that.values.seconds < 0) {
                 that.values.seconds = 59;
