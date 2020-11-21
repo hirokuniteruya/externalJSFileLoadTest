@@ -1,0 +1,3 @@
+Countdownオブジェクトのinitメソッド中で
+３つの変数remainingHrs, remainingMin, remainingSecが定義されていますが、
+それらがcountメソッド と checkHourメソッドに引き渡されてない為、
