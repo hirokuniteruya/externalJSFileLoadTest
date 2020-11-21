@@ -1,7 +1,3 @@
-body {
-  background-color: #f2f1ed;
-}
-
 .wrap {
   position: absolute;
   bottom: 0;
@@ -26,7 +22,7 @@ h1 {
 
 h1 strong {
   font-weight: 400;
-  color: #ea4c4c;
+  color: #303030;
 }
 
 h2 {
@@ -41,13 +37,18 @@ h2 strong {
 }
 
 .countdown {
-  width: 720px;
-  margin: 0 auto;
+  margin: 4px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .countdown .bloc-time {
   float: left;
-  margin-right: 45px;
+  margin-right: 32px;
   text-align: center;
 }
 
@@ -64,15 +65,14 @@ h2 strong {
 }
 
 .countdown .figure {
+  display: inline-block;
   position: relative;
-  float: left;
-  height: 110px;
-  width: 100px;
-  margin-right: 10px;
+  height: 74px;
+  width: 64px;
   background-color: #fff;
   border-radius: 8px;
   -webkit-box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.2), inset 2px 4px 0 0 rgba(255, 255, 255, 0.08);
-          box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.2), inset 2px 4px 0 0 rgba(255, 255, 255, 0.08);
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.2), inset 2px 4px 0 0 rgba(255, 255, 255, 0.08);
 }
 
 .countdown .figure:last-child {
@@ -84,9 +84,9 @@ h2 strong {
   left: 0;
   right: 0;
   margin: auto;
-  font: normal 5.94em/107px "Lato";
+  font: normal 40px/74px "Lato";
   font-weight: 700;
-  color: #de4848;
+  color: #000;
 }
 
 .countdown .figure .top:after,
@@ -103,12 +103,13 @@ h2 strong {
 
 .countdown .figure .top {
   z-index: 3;
-  background-color: #f7f7f7;
+  background-color: #fff;
   transform-origin: 50% 100%;
   -webkit-transform-origin: 50% 100%;
-  border-radius: 10px 10px 0 0;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   -webkit-transform: perspective(200px);
-          transform: perspective(200px);
+  transform: perspective(200px);
 }
 
 .countdown .figure .bottom {
@@ -131,8 +132,9 @@ h2 strong {
   top: 0;
   height: 50%;
   overflow: hidden;
-  background-color: #f7f7f7;
-  border-radius: 10px 10px 0 0;
+  background-color: #fff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .countdown .figure .bottom-back span {
@@ -148,7 +150,7 @@ h2 strong {
   height: 50%;
   overflow: hidden;
   -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .countdown .figure .top-back {
@@ -158,8 +160,9 @@ h2 strong {
   -webkit-transform-origin: 50% 0;
   transform-origin: 50% 0;
   -webkit-transform: perspective(200px) rotateX(180deg);
-          transform: perspective(200px) rotateX(180deg);
-  border-radius: 0 0 10px 10px;
+  transform: perspective(200px) rotateX(180deg);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .countdown .figure .top-back span {

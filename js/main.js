@@ -1,3 +1,4 @@
+'use strict';
 // Create Countdown
 var Countdown = {
 
@@ -9,7 +10,7 @@ var Countdown = {
     total_seconds: 0,
 
 
-    // 更新する値（場所）を取得  
+    // 更新する値（場所）を取得
     init: function () {
         this.$ = {
             days: this.$el.find('.bloc-time.days .figure'),
@@ -19,7 +20,7 @@ var Countdown = {
         };
 
         // カウントダウンの値の初期化
-        let endDateTime = new Date("2021/12/01 12:11:00"); // 期日
+        let endDateTime = new Date("2021 /12/31 00:00:00"); // 期日
         let startDateTime = new Date(); // 時間を取得
         let remaining = endDateTime - startDateTime; // 残り時間
         let daySeconds = 24 * 60 * 60 * 1000;
@@ -30,7 +31,6 @@ var Countdown = {
 
         // 残り時間
         let remainingHrs = Math.floor((remaining % daySeconds) / (60 * 60 * 1000));
-        console.log(remainingHrs);
 
         // 残り分数
         let remainingMin = Math.floor((remaining % daySeconds) / (60 * 1000)) % 60;
@@ -38,18 +38,18 @@ var Countdown = {
         // 残り秒数
         let remainingSec = Math.floor((remaining % daySeconds) / 1000) % 60 % 60;
 
-        // 時間を初期化    
+        // 時間を初期化
         this.values = {
             days: remainingDays,
-            hours: remainingHrs || this.$.hours.parent().attr('data-init-value'),
-            minutes: remainingMin || this.$.minutes.parent().attr('data-init-value'),
-            seconds: remainingSec || this.$.seconds.parent().attr('data-init-value'),
+            hours: remainingHrs,
+            minutes: remainingMin,
+            seconds: remainingSec,
         };
 
         // 秒数を初期化
         this.total_seconds = this.values.hours * 60 * 60 + (this.values.minutes * 60) + this.values.seconds;
 
-        // カウントダウンを開始
+        // カウントダウンを終了
         this.count();
     },
 
@@ -66,10 +66,6 @@ var Countdown = {
             $min_2 = this.$.minutes.eq(1),
             $sec_1 = this.$.seconds.eq(0),
             $sec_2 = this.$.seconds.eq(1);
-
-        console.log($days_1);
-        console.log($days_2);
-        console.log($days_3);
 
         this.countdown_interval = setInterval(function () {
 
@@ -89,7 +85,7 @@ var Countdown = {
 
                 // Update DOM values
                 // Days
-                that.checkHour(that.values.days, $days_1, $days_2, $days_3)
+                that.checkHour(that.values.days, $days_1, $days_2, $days_3);
 
                 // Hours
                 that.checkHour(that.values.hours, $hour_1, $hour_2);
@@ -152,26 +148,21 @@ var Countdown = {
             val_3 = value.toString().charAt(2),
             fig_1_value = $el_1.find('.top').html(),
             fig_2_value = $el_2.find('.top').html();
-        // var fig_3_value = ($el_3) ? $el_3.find('.top').html() : undefined;
-        // console.log(val_1);
-        //   console.log(val_2);
-        //   console.log(fig_1_value);
-        //   console.log(fig_2_value);
+        // fig_3_value = $el_3.find('.top').html();
 
         if (value >= 10) {
 
             // figureが変わったときのみ以下の処理を実行
             if (fig_1_value !== val_1) this.animateFigure($el_1, val_1);
             if (fig_2_value !== val_2) this.animateFigure($el_2, val_2);
-            // if ($el_3) {
-            //     if (fig_3_value !== val_3) this.animateFigure($el_3, val_3);
-            // }
+            // if (fig_3_value !== val_3) this.animateFigure($el_3, val_3);
         }
         else {
 
             // 10未満のとき, figureのwithを0にする
             if (fig_1_value !== '0') this.animateFigure($el_1, 0);
             if (fig_2_value !== val_1) this.animateFigure($el_2, val_1);
+            // if (fig_3_value !== val_2) this.animateFigure($el_3, val_2);
         }
     }
 };
