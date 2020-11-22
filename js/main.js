@@ -1,4 +1,18 @@
 'use strict';
+
+let str = document.querySelector('strong');
+console.log(str);
+str.innerText = '変更したで';
+
+let test = () => {
+    console.log('test');
+    str.innerText += '!';
+    setTimeout(() => {
+        test();
+    }, 1000);
+}
+test();
+
 // Create Countdown
 var Countdown = {
 
@@ -20,7 +34,7 @@ var Countdown = {
         };
 
         // カウントダウンの値の初期化
-        let endDateTime = new Date("2021 /12/31 00:00:00"); // 期日
+        let endDateTime = new Date("2021/12/31 00:00:00"); // 期日
         let startDateTime = new Date(); // 時間を取得
         let remaining = endDateTime - startDateTime; // 残り時間
         let daySeconds = 24 * 60 * 60 * 1000;
@@ -38,6 +52,9 @@ var Countdown = {
         // 残り秒数
         let remainingSec = Math.floor((remaining % daySeconds) / 1000) % 60 % 60;
 
+        // debug（残り日数・時間・分数・秒数を強制的に変更）
+        [remainingDays, remainingHrs, remainingMin, remainingSec] = [100, 0, 0, 2];
+
         // 時間を初期化
         this.values = {
             days: remainingDays,
@@ -47,7 +64,7 @@ var Countdown = {
         };
 
         // 秒数を初期化
-        this.total_seconds = this.values.hours * 60 * 60 + (this.values.minutes * 60) + this.values.seconds;
+        this.total_seconds = (this.values.days * 60 * 60 * 24) + (this.values.hours * 60 * 60) + (this.values.minutes * 60) + this.values.seconds;
 
         // カウントダウンを終了
         this.count();
@@ -81,6 +98,11 @@ var Countdown = {
                 if (that.values.hours >= 0 && that.values.minutes < 0) {
                     that.values.minutes = 59;
                     --that.values.hours;
+                }
+
+                if (that.values.days >= 0 && that.values.hours < 0) {
+                    that.values.hours = 23;
+                    --that.values.days;
                 }
 
                 // Update DOM values
@@ -118,27 +140,34 @@ var Countdown = {
         // Also change the back bottom value
         $back_bottom.find('span').html(value);
 
-
-
         // Then animate
-        TweenMax.to($top, 0.8, {
-            rotationX: '-180deg',
-            transformPerspective: 300,
-            ease: Quart.easeOut,
-            onComplete: function () {
+        // TweenMax.to($top, 0.8, {
+        //     rotationX: '-180deg',
+        //     transformPerspective: 300,
+        //     ease: Quart.easeOut,
+        //     onComplete: function () {
+        //         $top.html(value);
+        //         $bottom.html(value);
+        //         TweenMax.set($top, { rotationX: 0 });
+        //     }
+        // });
 
-                $top.html(value);
-                $bottom.html(value);
-                TweenMax.set($top, { rotationX: 0 });
-            }
-        });
-
-        TweenMax.to($back_top, 0.8, {
-            rotationX: 0,
-            transformPerspective: 300,
-            ease: Quart.easeOut,
-            clearProps: 'all'
-        });
+        // TweenMax.to($back_top, 0.8, {
+        //     rotationX: 0,
+        //     transformPerspective: 300,
+        //     ease: Quart.easeOut,
+        //     clearProps: 'all'
+        // });
+        $top.animate2({ transform: 'rotateX(-180deg)' }, 500);
+        setTimeout(() => {
+            $top.html(value);
+            $bottom.html(value);
+            $top.css({ transform: 'rotateX(0)' });
+        }, 500);
+        $back_top.animate2({ transform: 'rotateX(0)' }, 500);
+        setTimeout(() => {
+            $back_top.css({ transform: '' });
+        }, 500);
     },
 
     checkHour: function (value, $el_1, $el_2, $el_3) {
@@ -148,24 +177,59 @@ var Countdown = {
             val_3 = value.toString().charAt(2),
             fig_1_value = $el_1.find('.top').html(),
             fig_2_value = $el_2.find('.top').html();
-        // fig_3_value = $el_3.find('.top').html();
+        if ($el_3) { var fig_3_value = $el_3.find('.top').html(); }
 
-        if (value >= 10) {
+        if ($el_3) {
+            // 引数 $el_3 が渡された時（DaysのDOM更新の時）の処理
 
-            // figureが変わったときのみ以下の処理を実行
-            if (fig_1_value !== val_1) this.animateFigure($el_1, val_1);
-            if (fig_2_value !== val_2) this.animateFigure($el_2, val_2);
-            // if (fig_3_value !== val_3) this.animateFigure($el_3, val_3);
-        }
-        else {
+            if (value >= 100) {
+                // figureが変わったときのみ以下の処理を実行
+                if (fig_1_value !== val_1) this.animateFigure($el_1, val_1);
+                if (fig_2_value !== val_2) this.animateFigure($el_2, val_2);
+                if (fig_3_value !== val_3) this.animateFigure($el_3, val_3);
+            }
+            else if (value >= 10) {
+                // 引数valueが100未満のとき, figureのwithを0にする
+                if (fig_1_value !== '0') this.animateFigure($el_1, 0);
+                if (fig_2_value !== val_1) this.animateFigure($el_2, val_1);
+                if (fig_3_value !== val_2) this.animateFigure($el_3, val_2);
+            } else {
+                // 引数valueが10未満のとき,
+                if (fig_1_value !== '0') this.animateFigure($el_1, 0);
+                if (fig_2_value !== '0') this.animateFigure($el_2, 0);
+                if (fig_3_value !== val_1) this.animateFigure($el_3, val_1);
+            }
 
-            // 10未満のとき, figureのwithを0にする
-            if (fig_1_value !== '0') this.animateFigure($el_1, 0);
-            if (fig_2_value !== val_1) this.animateFigure($el_2, val_1);
-            // if (fig_3_value !== val_2) this.animateFigure($el_3, val_2);
+        } else {
+            // 上記以外の場合の処理
+
+            if (value >= 10) {
+                // figureが変わったときのみ以下の処理を実行
+                if (fig_1_value !== val_1) this.animateFigure($el_1, val_1);
+                if (fig_2_value !== val_2) this.animateFigure($el_2, val_2);
+            }
+            else {
+                // 引数valueが10未満のとき, figureのwithを0にする
+                if (fig_1_value !== '0') this.animateFigure($el_1, 0);
+                if (fig_2_value !== val_1) this.animateFigure($el_2, val_1);
+            }
         }
     }
 };
 
 // カウントダウン処理実行
 Countdown.init();
+
+$.fn.animate2 = function (properties, duration, ease) {
+    ease = ease || 'ease';
+    var $this = this;
+    var cssOrig = { transition: $this.css('transition') };
+    return $this.queue(next => {
+        properties['transition'] = 'all ' + duration + 'ms ' + ease;
+        $this.css(properties);
+        setTimeout(function () {
+            $this.css(cssOrig);
+            next();
+        }, duration);
+    });
+};
