@@ -1,0 +1,2 @@
+# externalJSFileLoadTest
+ふじもんさんの質問に基づく外部JSファイルの読み込みテスト
